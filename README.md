@@ -23,6 +23,16 @@ export GITHUB_TOKEN=$( \
 terraform apply
 ```
 
+You will also have to [set the project to be
+billed](https://cloud.google.com/sdk/gcloud/reference/auth/application-default/set-quota-project)
+by the Google Cloud Storage Transfer service.  This only works if you have also
+just re-authorised the shell.
+
+```sh
+gcloud auth application-default login
+gcloud auth application-default set-quota-project govuk-s3-mirror
+```
+
 If retrospectively terraforming a resource that already exists, you'll have to
 import it first.  That probably goes for the repository, branch, collaborator,
 etc.  One does not simply bootstrap a terraform configuration.
