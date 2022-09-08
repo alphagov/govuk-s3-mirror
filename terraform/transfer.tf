@@ -34,7 +34,7 @@ resource "google_storage_transfer_job" "s3-bucket-nightly-backup" {
       ]
     }
     transfer_options {
-      overwrite_objects_already_existing_in_sink = true
+      overwrite_objects_already_existing_in_sink = false
       delete_objects_unique_in_sink              = true
       delete_objects_from_source_after_transfer  = false
     }
