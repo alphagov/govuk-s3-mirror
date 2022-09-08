@@ -28,6 +28,7 @@ resource "google_storage_transfer_job" "s3-bucket-nightly-backup" {
   transfer_spec {
     object_conditions {
       include_prefixes = [
+        "publishing-api-postgres/",
         "support-api-postgres/",
         "mongo-api/",
       ]
