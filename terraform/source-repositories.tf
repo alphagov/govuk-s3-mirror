@@ -10,10 +10,18 @@ resource "google_service_account" "source_repositories_github" {
   description  = "Service account for pushing git repositories from GitHub Actions"
 }
 
-resource "google_sourcerepo_repository_iam_member" "writer" {
-  repository = google_sourcerepo_repository.govuk_s3_mirror.name
-  role       = "roles/writer"
-  member     = "serviceAccount:${google_service_account.source_repositories_github.email}"
+data "google_iam_policy" "source_repositories_github" {
+  binding {
+    role = "roles/writer"
+    members = [
+      "serviceAccount:${google_service_account.source_repositories_github.email}",
+    ]
+  }
+}
+
+resource "google_sourcerepo_repository_iam_policy" "govuk_s3_mirror" {
+  repository  = google_sourcerepo_repository.govuk_s3_mirror.name
+  policy_data = data.google_iam_policy.source_repositories_github.policy_data
 }
 
 data "google_iam_policy" "service_account_source_repositories_github" {
