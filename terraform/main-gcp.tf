@@ -132,3 +132,38 @@ resource "google_project_service" "services" {
 resource "google_compute_project_default_network_tier" "default" {
   network_tier = "STANDARD"
 }
+
+resource "google_project_iam_policy" "project" {
+  project     = var.project_id
+  policy_data = data.google_iam_policy.project.policy_data
+}
+
+# All IAM members at the project level must be given here.
+#
+# If terraform is about to remove the permissions of a default service account,
+# then that is probably because Google automatically created the account since
+# this file was last updated. In that case, add the new permissions here and
+# check the terraform plan again.
+data "google_iam_policy" "project" {
+  binding {
+    role = "roles/owner"
+    members = [
+      "user:duncan.garmonsway@digital.cabinet-office.gov.uk",
+    ]
+  }
+
+  binding {
+    role = "roles/editor"
+    members = [
+      "serviceAccount:384988117066-compute@developer.gserviceaccount.com",
+      "serviceAccount:384988117066@cloudservices.gserviceaccount.com",
+    ]
+  }
+
+  binding {
+    role = "roles/compute.serviceAgent"
+    members = [
+      "serviceAccount:service-384988117066@compute-system.iam.gserviceaccount.com",
+    ]
+  }
+}
