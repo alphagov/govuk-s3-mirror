@@ -29,6 +29,7 @@ resource "google_storage_bucket_iam_binding" "govuk-integration-database-backups
     "group:data-engineering@digital.cabinet-office.gov.uk",
     "group:data-products@digital.cabinet-office.gov.uk",
     "group:data-insights@digital.cabinet-office.gov.uk",
+    "user:matthew.gregory@digital.cabinet-office.gov.uk",
   ]
 }
 
