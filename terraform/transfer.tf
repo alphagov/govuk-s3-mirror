@@ -15,9 +15,9 @@ resource "google_storage_bucket" "govuk-integration-database-backups" {
 }
 
 # Allow the transfer job to use the bucket via its service account
-resource "google_storage_bucket_iam_member" "govuk-integration-database-backups_objectAdmin" {
+resource "google_storage_bucket_iam_member" "govuk-integration-database-backups_admin" {
   bucket     = google_storage_bucket.govuk-integration-database-backups.name
-  role       = "roles/storage.objectAdmin"
+  role       = "roles/storage.admin"
   member     = "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}"
   depends_on = [google_storage_bucket.govuk-integration-database-backups]
 }
@@ -71,5 +71,5 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
     repeat_interval = "3600s"
   }
 
-  depends_on = [google_storage_bucket_iam_member.govuk-integration-database-backups_objectAdmin]
+  depends_on = [google_storage_bucket_iam_member.govuk-integration-database-backups_admin]
 }
