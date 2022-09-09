@@ -15,22 +15,59 @@ resource "google_storage_bucket" "govuk-integration-database-backups" {
 }
 
 # Allow the transfer job to use the bucket via its service account
-resource "google_storage_bucket_iam_member" "govuk-integration-database-backups_admin" {
-  bucket     = google_storage_bucket.govuk-integration-database-backups.name
-  role       = "roles/storage.admin"
-  member     = "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}"
-  depends_on = [google_storage_bucket.govuk-integration-database-backups]
+data "google_iam_policy" "bucket_govuk-integration-database-backups" {
+  binding {
+    role = "roles/storage.admin"
+    members = [
+      "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.objectViewer"
+    members = [
+      "group:data-engineering@digital.cabinet-office.gov.uk",
+      "group:data-products@digital.cabinet-office.gov.uk",
+      "group:data-insights@digital.cabinet-office.gov.uk",
+      "user:matthew.gregory@digital.cabinet-office.gov.uk",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketOwner"
+    members = [
+      "projectEditor:govuk-s3-mirror",
+      "projectOwner:govuk-s3-mirror",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketReader"
+    members = [
+      "projectViewer:govuk-s3-mirror",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyObjectOwner"
+    members = [
+      "projectEditor:govuk-s3-mirror",
+      "projectOwner:govuk-s3-mirror",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyObjectReader"
+    members = [
+      "projectViewer:govuk-s3-mirror",
+    ]
+  }
+
 }
 
-resource "google_storage_bucket_iam_binding" "govuk-integration-database-backups_objectViewer" {
-  bucket = google_storage_bucket.govuk-integration-database-backups.name
-  role   = "roles/storage.objectViewer"
-  members = [
-    "group:data-engineering@digital.cabinet-office.gov.uk",
-    "group:data-products@digital.cabinet-office.gov.uk",
-    "group:data-insights@digital.cabinet-office.gov.uk",
-    "user:matthew.gregory@digital.cabinet-office.gov.uk",
-  ]
+resource "google_storage_bucket_iam_policy" "govuk-integration-database-backups" {
+  bucket      = google_storage_bucket.govuk-integration-database-backups.name
+  policy_data = data.google_iam_policy.bucket_govuk-integration-database-backups.policy_data
 }
 
 resource "google_storage_transfer_job" "govuk-integration-database-backups" {
@@ -72,6 +109,4 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
     }
     repeat_interval = "3600s"
   }
-
-  depends_on = [google_storage_bucket_iam_member.govuk-integration-database-backups_admin]
 }
