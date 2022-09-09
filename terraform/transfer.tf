@@ -26,6 +26,7 @@ resource "google_storage_bucket_iam_binding" "govuk-integration-database-backups
   bucket = google_storage_bucket.govuk-integration-database-backups.name
   role   = "roles/storage.objectViewer"
   members = [
+    "group:data-engineering@digital.cabinet-office.gov.uk",
     "group:data-products@digital.cabinet-office.gov.uk",
     "group:data-insights@digital.cabinet-office.gov.uk",
   ]
