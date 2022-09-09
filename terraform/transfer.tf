@@ -31,8 +31,8 @@ resource "google_storage_bucket_iam_binding" "govuk-integration-database-backups
   ]
 }
 
-resource "google_storage_transfer_job" "s3-bucket-nightly-backup" {
-  description = "Nightly backup of S3 bucket"
+resource "google_storage_transfer_job" "govuk-integration-database-backups" {
+  description = "Mirror the GOV.UK S3 bucket govuk-integration-database-backups"
 
   transfer_spec {
     object_conditions {
