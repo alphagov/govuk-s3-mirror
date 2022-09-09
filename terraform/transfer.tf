@@ -22,6 +22,15 @@ resource "google_storage_bucket_iam_member" "govuk-integration-database-backups_
   depends_on = [google_storage_bucket.govuk-integration-database-backups]
 }
 
+resource "google_storage_bucket_iam_binding" "govuk-integration-database-backups_objectViewer" {
+  bucket = google_storage_bucket.govuk-integration-database-backups.name
+  role   = "roles/storage.objectViewer"
+  members = [
+    "group:data-products@digital.cabinet-office.gov.uk",
+    "group:data-insights@digital.cabinet-office.gov.uk",
+  ]
+}
+
 resource "google_storage_transfer_job" "s3-bucket-nightly-backup" {
   description = "Nightly backup of S3 bucket"
 
