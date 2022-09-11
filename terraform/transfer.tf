@@ -110,3 +110,31 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
     repeat_interval = "3600s"
   }
 }
+
+# Send notifications to pubusb
+resource "google_pubsub_topic" "govuk_integration_database_backups" {
+  name = "govuk-integration-database-backups"
+}
+
+resource "google_storage_notification" "notification" {
+  bucket         = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format = "JSON_API_V1"
+  topic          = google_pubsub_topic.govuk_integration_database_backups.id
+  event_types    = ["OBJECT_FINALIZE"]
+  depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
+}
+
+// Enable notifications by giving the correct IAM permission to the unique service account.
+data "google_iam_policy" "pubsub_topic-govuk_integration_database_backups" {
+  binding {
+    role = "roles/pubsub.publisher"
+    members = [
+      "serviceAccount:${data.google_storage_project_service_account.default.email_address}"
+    ]
+  }
+}
+
+resource "google_pubsub_topic_iam_policy" "govuk_integration_database_backups" {
+  topic       = google_pubsub_topic.govuk_integration_database_backups.name
+  policy_data = data.google_iam_policy.pubsub_topic-govuk_integration_database_backups.policy_data
+}
