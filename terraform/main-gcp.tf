@@ -168,4 +168,11 @@ data "google_iam_policy" "project" {
       "serviceAccount:service-384988117066@compute-system.iam.gserviceaccount.com",
     ]
   }
+
+  binding {
+    role = "roles/pubsub.serviceAgent"
+    members = [
+      "serviceAccount:service-384988117066@gcp-sa-pubsub.iam.gserviceaccount.com",
+    ]
+  }
 }

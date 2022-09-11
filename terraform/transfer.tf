@@ -113,7 +113,13 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
 
 # Send notifications to pubusb
 resource "google_pubsub_topic" "govuk_integration_database_backups" {
-  name = "govuk-integration-database-backups"
+  name                       = "govuk-integration-database-backups"
+  message_retention_duration = "604800s" # 604800 seconds is 7 days
+  message_storage_policy {
+    allowed_persistence_regions = [
+      var.region,
+    ]
+  }
 }
 
 resource "google_storage_notification" "notification" {
