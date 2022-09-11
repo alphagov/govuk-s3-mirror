@@ -1,3 +1,5 @@
+data "google_storage_project_service_account" "default" {}
+
 # Bucket for a copy of the current state of the git repository
 resource "google_storage_bucket" "repository" {
   name                        = "${var.project_id}-repository" # Must be globally unique

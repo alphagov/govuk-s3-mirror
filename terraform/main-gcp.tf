@@ -66,6 +66,7 @@ variable "services" {
     # List all the services you use here
     "storage.googleapis.com",
     "iam.googleapis.com",
+    "pubsub.googleapis.com",
     "sourcerepo.googleapis.com",
     "storagetransfer.googleapis.com"
   ]
