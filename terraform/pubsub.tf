@@ -1,4 +1,41 @@
-# Subscribe to own topic
+# ==============================
+# A PubSub topic in this project
+# ==============================
+resource "google_pubsub_topic" "govuk_integration_database_backups" {
+  name                       = "govuk-integration-database-backups"
+  message_retention_duration = "604800s" # 604800 seconds is 7 days
+  message_storage_policy {
+    allowed_persistence_regions = [
+      var.region,
+    ]
+  }
+}
+
+// Allow the bucket to send notifications to topic
+data "google_iam_policy" "pubsub_topic-govuk_integration_database_backups" {
+  binding {
+    role = "roles/pubsub.publisher"
+    members = [
+      "serviceAccount:${data.google_storage_project_service_account.default.email_address}"
+    ]
+  }
+}
+
+resource "google_pubsub_topic_iam_policy" "govuk_integration_database_backups" {
+  topic       = google_pubsub_topic.govuk_integration_database_backups.name
+  policy_data = data.google_iam_policy.pubsub_topic-govuk_integration_database_backups.policy_data
+}
+
+# Notify the topic from the bucket
+resource "google_storage_notification" "govuk_integration_database_backups" {
+  bucket         = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format = "JSON_API_V1"
+  topic          = google_pubsub_topic.govuk_integration_database_backups.id
+  event_types    = ["OBJECT_FINALIZE"]
+  depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
+}
+
+# Subscribe to the topic (so that it can be monitored in the console)
 resource "google_pubsub_subscription" "govuk_integration_database_backups" {
   name  = "govuk-integration-database-backups"
   topic = google_pubsub_topic.govuk_integration_database_backups.name
@@ -10,5 +47,28 @@ resource "google_pubsub_subscription" "govuk_integration_database_backups" {
     ttl = "" # empty string is 'never'
   }
 
-  enable_message_ordering    = false
+  enable_message_ordering = false
+}
+
+# ===================================================
+# A PubSub topic in the govuk-knowledge-graph project
+# ===================================================
+resource "google_pubsub_topic" "govuk_integration_database_backups-govuk_knowledge_graph" {
+  project                    = "govuk-knowledge-graph"
+  name                       = "govuk-integration-database-backups"
+  message_retention_duration = "604800s" # 604800 seconds is 7 days
+  message_storage_policy {
+    allowed_persistence_regions = [
+      var.region,
+    ]
+  }
+}
+
+# Notify the topic from the bucket
+resource "google_storage_notification" "govuk_integration_database_backups-govuk_knowledge_graph" {
+  bucket         = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format = "JSON_API_V1"
+  topic          = google_pubsub_topic.govuk_integration_database_backups-govuk_knowledge_graph.id
+  event_types    = ["OBJECT_FINALIZE"]
+  depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
 }
