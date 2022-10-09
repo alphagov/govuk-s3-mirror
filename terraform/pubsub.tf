@@ -72,3 +72,14 @@ resource "google_storage_notification" "govuk_integration_database_backups-govuk
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
 }
+
+# ===================================================================
+# Notify a PubSub topic in the testing-cloud-functions-355013 project
+# ===================================================================
+resource "google_storage_notification" "support_api_backup_staging" {
+  bucket             = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format     = "JSON_API_V1"
+  topic              = "projects/testing-cloud-functions-355013/topics/support-api-backup-staging"
+  event_types        = ["OBJECT_FINALIZE"]
+  object_name_prefix = "support-api-postgres/"
+}
