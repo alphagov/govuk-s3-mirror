@@ -27,11 +27,8 @@ data "google_iam_policy" "bucket_govuk-integration-database-backups" {
     role = "roles/storage.objectViewer"
     members = [
       "group:data-engineering@digital.cabinet-office.gov.uk",
-      "group:data-products@digital.cabinet-office.gov.uk",
-      "group:data-insights@digital.cabinet-office.gov.uk",
       "serviceAccount:gce-mongodb@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-postgres@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "user:matthew.gregory@digital.cabinet-office.gov.uk",
+      "serviceAccount:gce-postgres@govuk-knowledge-graph.iam.gserviceaccount.com"
     ]
   }
 
