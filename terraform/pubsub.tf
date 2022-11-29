@@ -53,22 +53,16 @@ resource "google_pubsub_subscription" "govuk_integration_database_backups" {
 # ===================================================
 # A PubSub topic in the govuk-knowledge-graph project
 # ===================================================
-resource "google_pubsub_topic" "govuk_integration_database_backups-govuk_knowledge_graph" {
+data "google_pubsub_topic" "govuk_integration_database_backups-govuk_knowledge_graph" {
   project                    = "govuk-knowledge-graph"
   name                       = "govuk-integration-database-backups"
-  message_retention_duration = "604800s" # 604800 seconds is 7 days
-  message_storage_policy {
-    allowed_persistence_regions = [
-      var.region,
-    ]
-  }
 }
 
 # Notify the topic from the bucket
 resource "google_storage_notification" "govuk_integration_database_backups-govuk_knowledge_graph" {
   bucket         = google_storage_bucket.govuk-integration-database-backups.name
   payload_format = "JSON_API_V1"
-  topic          = google_pubsub_topic.govuk_integration_database_backups-govuk_knowledge_graph.id
+  topic          = data.google_pubsub_topic.govuk_integration_database_backups-govuk_knowledge_graph.id
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
 }
