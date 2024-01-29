@@ -12,6 +12,7 @@ resource "google_pubsub_topic" "govuk_integration_database_backups" {
 }
 
 // Allow the bucket to send notifications to topic
+data "google_storage_project_service_account" "default" {}
 data "google_iam_policy" "pubsub_topic-govuk_integration_database_backups" {
   binding {
     role = "roles/pubsub.publisher"
