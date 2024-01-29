@@ -83,9 +83,10 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
     object_conditions {
       include_prefixes = [
         "content-store-postgres/",
-        "publishing-api-postgres/",
-        "support-api-postgres/",
         "mongo-api/",
+        "publishing-api-postgres/",
+        "shared-documentdb/",
+        "support-api-postgres/",
       ]
     }
     transfer_options {
