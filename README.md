@@ -98,6 +98,32 @@ resource "google_storage_notification" "govuk_integration_database_backups-govuk
 }
 ```
 
+## How to include a new file
+
+Not every file in the S3 bucket is transferred to Google Cloud Platform.  A
+filter is defined in `/terraform/transfer.tf`, in the resource that is partially
+copied out below. To include a new file, add its prefix to the array of
+`include_prefixes`.
+
+The filter is on the first part of the name of the object, called the 'prefix'.
+Folder names are included in the object name, so in the filters below, every
+object in the folder `publishing-api-postgres/` is included.
+
+```terraform
+resource "google_storage_transfer_job" "govuk-integration-database-backups" {
+  description = "Mirror the GOV.UK S3 bucket govuk-integration-database-backups"
+
+  transfer_spec {
+    object_conditions {
+      include_prefixes = [
+        "content-store-postgres/",
+        "publishing-api-postgres/",
+        "support-api-postgres/",
+        "mongo-api/",
+      ]
+    }
+```
+
 ## Who to contact
 
 This project is not currently owned by any team in the GOV.UK programme. The
