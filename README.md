@@ -29,7 +29,7 @@ projects.  This is configured by the blocks at the bottom of the file
 To receive notifications in a new project:
 
 1. Create a PubSub topic in the new project
-2. Give this project permission to publish to the PubSub topic by givin the
+2. Give this project permission to publish to the PubSub topic by giving the
    service account
    `service-384988117066@gs-project-accounts.iam.gserviceaccount.com` the role
    `roles/pubsub.publisher` in relation to the PubSub topic.
