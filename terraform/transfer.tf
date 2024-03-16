@@ -27,15 +27,6 @@ data "google_iam_policy" "bucket_govuk-integration-database-backups" {
     role = "roles/storage.objectViewer"
     members = [
       "group:govgraph-private-data-readers@digital.cabinet-office.gov.uk",
-      "serviceAccount:gce-content@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-content@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-content@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-mongodb@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-mongodb@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-mongodb@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-content-api@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-content-api@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-content-api@govuk-knowledge-graph.iam.gserviceaccount.com",
       "serviceAccount:gce-publishing-api@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
       "serviceAccount:gce-publishing-api@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
       "serviceAccount:gce-publishing-api@govuk-knowledge-graph.iam.gserviceaccount.com",
