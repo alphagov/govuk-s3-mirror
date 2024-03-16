@@ -149,9 +149,7 @@ data "google_iam_policy" "project" {
   binding {
     role = "roles/owner"
     members = [
-      "user:duncan.garmonsway@digital.cabinet-office.gov.uk",
-      "user:harry.wrightson@digital.cabinet-office.gov.uk",
-      "user:oliver.roberts@digital.cabinet-office.gov.uk",
+      "group:govgraph-developers@digital.cabinet-office.gov.uk",
     ]
   }
 
