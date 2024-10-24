@@ -41,7 +41,7 @@ variable "billing_account" {
 
 variable "folder_id" {
   type    = string
-  default = "20421432222" # Change this
+  default = "278098142879" # Change this
 }
 
 variable "region" {
