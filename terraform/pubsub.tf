@@ -6,7 +6,7 @@ moved {
   to   = google_pubsub_topic.govuk_database_backups
 }
 resource "google_pubsub_topic" "govuk_database_backups" {
-  name                       = "govuk-integration-database-backups"
+  name                       = "govuk-database-backups"
   message_retention_duration = "604800s" # 604800 seconds is 7 days
   message_storage_policy {
     allowed_persistence_regions = [
@@ -54,7 +54,7 @@ moved {
   to   = google_pubsub_subscription.govuk_database_backups
 }
 resource "google_pubsub_subscription" "govuk_database_backups" {
-  name  = "govuk-integration-database-backups"
+  name  = "govuk-database-backups"
   topic = google_pubsub_topic.govuk_database_backups.name
 
   message_retention_duration = "604800s" # 604800 seconds is 7 days
@@ -79,7 +79,7 @@ moved {
 resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph" {
   bucket         = google_storage_bucket.govuk_database_backups.name
   payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph/topics/govuk-integration-database-backups"
+  topic          = "/projects/govuk-knowledge-graph/topics/govuk-database-backups"
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
@@ -96,7 +96,7 @@ moved {
 resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph_staging" {
   bucket         = google_storage_bucket.govuk_database_backups.name
   payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph-staging/topics/govuk-integration-database-backups"
+  topic          = "/projects/govuk-knowledge-graph-staging/topics/govuk-database-backups"
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
@@ -113,7 +113,7 @@ moved {
 resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph_dev" {
   bucket         = google_storage_bucket.govuk_database_backups.name
   payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph-dev/topics/govuk-integration-database-backups"
+  topic          = "/projects/govuk-knowledge-graph-dev/topics/govuk-backups"
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
