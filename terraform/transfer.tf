@@ -94,8 +94,8 @@ resource "google_storage_transfer_job" "govuk-integration-database-backups" {
       delete_objects_from_source_after_transfer  = false
     }
     aws_s3_data_source {
-      bucket_name = "govuk-integration-database-backups"
-      role_arn    = "arn:aws:iam::210287912431:role/google-s3-mirror"
+      bucket_name = "govuk-staging-database-backups"
+      role_arn    = "arn:aws:iam::696911096973:policy/google-s3-mirror"
     }
     gcs_data_sink {
       bucket_name = google_storage_bucket.govuk-integration-database-backups.name
