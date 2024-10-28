@@ -95,7 +95,7 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
     }
     aws_s3_data_source {
       bucket_name = "govuk-staging-database-backups"
-      role_arn    = "arn:aws:iam::696911096973:policy/google-s3-mirror"
+      role_arn    = "arn:aws:iam::696911096973:role/google-s3-mirror"
     }
     gcs_data_sink {
       bucket_name = google_storage_bucket.govuk_database_backups.name
