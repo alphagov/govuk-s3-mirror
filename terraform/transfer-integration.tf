@@ -1,12 +1,10 @@
+# Legacy transfers from GOV.UK's integration project
 # Nightly transfer from AWS S3
 
-data "google_storage_transfer_project_service_account" "default" {
-}
-
-resource "google_storage_bucket" "govuk_database_backups" {
-  name                        = "${var.project_id}_govuk-database-backups" # Must be globally unique
-  force_destroy               = false                                      # terraform won't delete the bucket unless it is empty
-  storage_class               = "STANDARD"                                 # https://cloud.google.com/storage/docs/storage-classes
+resource "google_storage_bucket" "govuk-integration-database-backups" {
+  name                        = "${var.project_id}_govuk-integration-database-backups" # Must be globally unique
+  force_destroy               = false                                                  # terraform won't delete the bucket unless it is empty
+  storage_class               = "STANDARD"                                             # https://cloud.google.com/storage/docs/storage-classes
   uniform_bucket_level_access = true
   location                    = var.location
   versioning {
@@ -15,7 +13,7 @@ resource "google_storage_bucket" "govuk_database_backups" {
 }
 
 # Allow the transfer job to use the bucket via its service account
-data "google_iam_policy" "bucket_govuk_database_backups" {
+data "google_iam_policy" "bucket_govuk-integration-database-backups" {
   binding {
     role = "roles/storage.admin"
     members = [
@@ -70,13 +68,13 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
 
 }
 
-resource "google_storage_bucket_iam_policy" "govuk_database_backups" {
-  bucket      = google_storage_bucket.govuk_database_backups.name
-  policy_data = data.google_iam_policy.bucket_govuk_database_backups.policy_data
+resource "google_storage_bucket_iam_policy" "govuk-integration-database-backups" {
+  bucket      = google_storage_bucket.govuk-integration-database-backups.name
+  policy_data = data.google_iam_policy.bucket_govuk-integration-database-backups.policy_data
 }
 
-resource "google_storage_transfer_job" "govuk_database_backups" {
-  description = "Mirror the GOV.UK S3 bucket govuk-staging-database-backups"
+resource "google_storage_transfer_job" "govuk-integration-database-backups" {
+  description = "Mirror the GOV.UK S3 bucket govuk-integration-database-backups"
 
   transfer_spec {
     object_conditions {
@@ -94,11 +92,11 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
       delete_objects_from_source_after_transfer  = false
     }
     aws_s3_data_source {
-      bucket_name = "govuk-staging-database-backups"
-      role_arn    = "arn:aws:iam::696911096973:role/google-s3-mirror"
+      bucket_name = "govuk-integration-database-backups"
+      role_arn    = "arn:aws:iam::210287912431:role/google-s3-mirror"
     }
     gcs_data_sink {
-      bucket_name = google_storage_bucket.govuk_database_backups.name
+      bucket_name = google_storage_bucket.govuk-integration-database-backups.name
     }
   }
 
