@@ -1,3 +1,5 @@
+# Legacy topics reading from GOV.UK's integration project
+
 # ==============================
 # A PubSub topic in this project
 # ==============================
@@ -11,20 +13,9 @@ resource "google_pubsub_topic" "govuk_integration_database_backups" {
   }
 }
 
-// Allow the bucket to send notifications to topic
-data "google_storage_project_service_account" "default" {}
-data "google_iam_policy" "pubsub_topic-govuk_integration_database_backups" {
-  binding {
-    role = "roles/pubsub.publisher"
-    members = [
-      "serviceAccount:${data.google_storage_project_service_account.default.email_address}"
-    ]
-  }
-}
-
 resource "google_pubsub_topic_iam_policy" "govuk_integration_database_backups" {
   topic       = google_pubsub_topic.govuk_integration_database_backups.name
-  policy_data = data.google_iam_policy.pubsub_topic-govuk_integration_database_backups.policy_data
+  policy_data = data.google_iam_policy.pubsub_topic-govuk_database_backups.policy_data
 }
 
 # Notify the topic from the bucket
