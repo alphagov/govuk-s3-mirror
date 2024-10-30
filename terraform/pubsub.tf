@@ -59,7 +59,7 @@ resource "google_pubsub_subscription" "govuk_database_backups" {
 resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph_dev" {
   bucket         = google_storage_bucket.govuk_database_backups.name
   payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph-dev/topics/govuk-database-backups"
+  topic          = "//pubsub.googleapis.com/projects/govuk-knowledge-graph-dev/topics/govuk-database-backups"
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
