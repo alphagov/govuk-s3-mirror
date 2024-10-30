@@ -50,5 +50,16 @@ resource "google_pubsub_subscription" "govuk_database_backups" {
 
   enable_message_ordering = false
 }
-# TODO: Move google_storage_notification notifications from
-#       integration over here, once we're happy things are working
+
+# =======================================================
+# A PubSub topic in the govuk-knowledge-graph-dev project
+# =======================================================
+
+# Notify the topic from the bucket
+resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph_dev" {
+  bucket         = google_storage_bucket.govuk_database_backups.name
+  payload_format = "JSON_API_V1"
+  topic          = "/projects/govuk-knowledge-graph-dev/topics/govuk-database-backups"
+  event_types    = ["OBJECT_FINALIZE"]
+  depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
+}
