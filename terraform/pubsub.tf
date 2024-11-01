@@ -91,7 +91,7 @@ resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_g
 # A PubSub topic in the govuk-knowledge-graph-dev project
 # =======================================================
 
-data "google_pubsub_topic" "govuk_database_backups_knowlege_graph_dev" {
+data "google_pubsub_topic" "govuk_database_backups_knowledge_graph_dev" {
   name    = "govuk-database-backups"
   project = "govuk-knowledge-graph-dev"
 }
@@ -100,7 +100,7 @@ data "google_pubsub_topic" "govuk_database_backups_knowlege_graph_dev" {
 resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_graph_dev" {
   bucket         = google_storage_bucket.govuk_database_backups.name
   payload_format = "JSON_API_V1"
-  topic          = data.google_pubsub_topic.govuk_database_backups_knowlege_graph_dev.id
+  topic          = data.google_pubsub_topic.govuk_database_backups_knowledge_graph_dev.id
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
