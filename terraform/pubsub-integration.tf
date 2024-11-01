@@ -42,32 +42,6 @@ resource "google_pubsub_subscription" "govuk_integration_database_backups" {
   enable_message_ordering = false
 }
 
-# ===================================================
-# A PubSub topic in the govuk-knowledge-graph project
-# ===================================================
-
-# Notify the topic from the bucket
-resource "google_storage_notification" "govuk_integration_database_backups-govuk_knowledge_graph" {
-  bucket         = google_storage_bucket.govuk-integration-database-backups.name
-  payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph/topics/govuk-integration-database-backups"
-  event_types    = ["OBJECT_FINALIZE"]
-  depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
-}
-
-# =======================================================
-# A PubSub topic in the govuk-knowledge-graph-staging project
-# =======================================================
-
-# Notify the topic from the bucket
-resource "google_storage_notification" "govuk_integration_database_backups-govuk_knowledge_graph_staging" {
-  bucket         = google_storage_bucket.govuk-integration-database-backups.name
-  payload_format = "JSON_API_V1"
-  topic          = "/projects/govuk-knowledge-graph-staging/topics/govuk-integration-database-backups"
-  event_types    = ["OBJECT_FINALIZE"]
-  depends_on     = [google_pubsub_topic_iam_policy.govuk_integration_database_backups]
-}
-
 # =========================================================
 # Notify a PubSub topic in the govuk-analytics-test project
 # =========================================================
