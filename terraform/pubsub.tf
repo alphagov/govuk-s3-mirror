@@ -104,3 +104,25 @@ resource "google_storage_notification" "govuk_database_backups-govuk_knowledge_g
   event_types    = ["OBJECT_FINALIZE"]
   depends_on     = [google_pubsub_topic_iam_policy.govuk_database_backups]
 }
+
+# =========================================================
+# Notify a PubSub topic in the govuk-user-feedback project
+# =========================================================
+resource "google_storage_notification" "govuk_user_feedback" {
+  bucket             = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format     = "JSON_API_V1"
+  topic              = "projects/govuk-user-feedback/topics/support-api-backup-staging"
+  event_types        = ["OBJECT_FINALIZE"]
+  object_name_prefix = "support-api-postgres/"
+}
+
+# =========================================================
+# Notify a PubSub topic in the govuk-user-feedback-dev project
+# =========================================================
+resource "google_storage_notification" "govuk_user_feedback_dev" {
+  bucket             = google_storage_bucket.govuk-integration-database-backups.name
+  payload_format     = "JSON_API_V1"
+  topic              = "projects/govuk-user-feedback-dev/topics/support-api-backup-staging"
+  event_types        = ["OBJECT_FINALIZE"]
+  object_name_prefix = "support-api-postgres/"
+}
