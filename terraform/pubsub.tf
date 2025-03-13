@@ -120,7 +120,7 @@ resource "google_storage_notification" "govuk_user_feedback" {
 # Notify a PubSub topic in the govuk-user-feedback-dev project
 # =========================================================
 resource "google_storage_notification" "govuk_user_feedback_dev" {
-  bucket             = google_storage_bucket.govuk-integration-database-backups.name
+  bucket             = google_storage_bucket.govuk_database_backups.name
   payload_format     = "JSON_API_V1"
   topic              = "projects/govuk-user-feedback-dev/topics/support-api-backup-staging"
   event_types        = ["OBJECT_FINALIZE"]
