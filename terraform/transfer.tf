@@ -89,6 +89,7 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
         "publishing-api-postgres/",
         "shared-documentdb/",
         "support-api-postgres/",
+        "whitehall-mysql/",
       ]
     }
     transfer_options {
