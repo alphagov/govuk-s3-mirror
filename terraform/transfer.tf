@@ -36,6 +36,9 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
       "serviceAccount:gce-publisher@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
       "serviceAccount:gce-publisher@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
       "serviceAccount:gce-publisher@govuk-knowledge-graph.iam.gserviceaccount.com",
+      "serviceAccount:gce-whitehall@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
+      "serviceAccount:gce-whitehall@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
+      "serviceAccount:gce-whitehall@govuk-knowledge-graph.iam.gserviceaccount.com",
       "serviceAccount:data-engineering@govuk-user-feedback-dev.iam.gserviceaccount.com",
       "serviceAccount:data-engineering@govuk-user-feedback.iam.gserviceaccount.com",
     ]
