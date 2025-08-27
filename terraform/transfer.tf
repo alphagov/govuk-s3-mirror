@@ -92,6 +92,7 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
       include_prefixes = [
         "content-store-postgres/",
         "mongo-api/",
+        "publisher-postgres/",
         "publishing-api-postgres/",
         "shared-documentdb/",
         "support-api-postgres/",
