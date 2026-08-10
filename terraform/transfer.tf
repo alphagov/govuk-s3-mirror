@@ -98,11 +98,7 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
       include_prefixes = [
         "content-store-postgres/",
         "mongo-api/",
-        "publisher-postgres/",
-        "publishing-api-postgres/",
         "shared-documentdb/",
-        "support-api-postgres/",
-        "whitehall-mysql/",
         "parquet/",
       ]
     }
@@ -128,7 +124,7 @@ resource "google_storage_transfer_job" "govuk_database_backups" {
     }
     start_time_of_day {
       hours   = 00
-      minutes = 00
+      minutes = 30
       seconds = 00
       nanos   = 0
     }
