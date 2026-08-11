@@ -20,6 +20,9 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
     role = "roles/storage.admin"
     members = [
       "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}",
+      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
+      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
+      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph.iam.gserviceaccount.com",      
     ]
   }
 
@@ -47,9 +50,6 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
       "serviceAccount:rds-parquet-bq-loader@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
       "serviceAccount:rds-parquet-bq-loader@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
       "serviceAccount:rds-parquet-bq-loader@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:docdb-bq-loader@govuk-knowledge-graph.iam.gserviceaccount.com",
     ]
   }
 
