@@ -30,21 +30,6 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
     role = "roles/storage.objectViewer"
     members = [
       "group:govgraph-private-data-readers@digital.cabinet-office.gov.uk",
-      "serviceAccount:gce-publishing-api@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-publishing-api@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-publishing-api@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-support-api@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-support-api@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-support-api@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-publisher@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-publisher@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-publisher@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-whitehall@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-whitehall@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-whitehall@govuk-knowledge-graph.iam.gserviceaccount.com",
-      "serviceAccount:gce-asset-manager@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
-      "serviceAccount:gce-asset-manager@govuk-knowledge-graph-staging.iam.gserviceaccount.com",
-      "serviceAccount:gce-asset-manager@govuk-knowledge-graph.iam.gserviceaccount.com",
       "serviceAccount:data-engineering@govuk-user-feedback-dev.iam.gserviceaccount.com",
       "serviceAccount:data-engineering@govuk-user-feedback.iam.gserviceaccount.com",
       "serviceAccount:rds-parquet-bq-loader@govuk-knowledge-graph-dev.iam.gserviceaccount.com",
@@ -65,6 +50,7 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
     role = "roles/storage.legacyBucketReader"
     members = [
       "projectViewer:govuk-s3-mirror",
+      "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}",
     ]
   }
 
@@ -80,6 +66,13 @@ data "google_iam_policy" "bucket_govuk_database_backups" {
     role = "roles/storage.legacyObjectReader"
     members = [
       "projectViewer:govuk-s3-mirror",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.objectAdmin"
+    members = [
+      "serviceAccount:${data.google_storage_transfer_project_service_account.default.email}",
     ]
   }
 

@@ -150,6 +150,9 @@ data "google_iam_policy" "project" {
     role = "roles/owner"
     members = [
       "group:govgraph-developers@digital.cabinet-office.gov.uk",
+      "group:gcp-data-infrastructure-owners@digital.cabinet-office.gov.uk",
+      "group:govuk-gcp-access@digital.cabinet-office.gov.uk",
+      "serviceAccount:terraform-cloud-production@govuk-production.iam.gserviceaccount.com",
     ]
   }
 
@@ -157,7 +160,6 @@ data "google_iam_policy" "project" {
     role = "roles/editor"
     members = [
       "serviceAccount:384988117066-compute@developer.gserviceaccount.com",
-      "serviceAccount:384988117066@cloudservices.gserviceaccount.com",
     ]
   }
 
