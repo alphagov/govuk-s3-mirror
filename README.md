@@ -1,3 +1,7 @@
+> [!WARNING]
+> This repo has been archived.
+> All resources previously managed here are now managed in the `gcp-govuk-s3-mirror` Terraform Cloud deployment in https://github.com/alphagov/govuk-data-infrastructure.
+
 # Mirror on the Google Cloud Platform of some GOV.UK buckets from AWS
 
 Repository of the [Google Cloud
